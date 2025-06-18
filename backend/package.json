@@ -1,0 +1,22 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "description": ".",
+  "main": "root",
+  "scripts": {
+    "start": "node root.js",
+    "resetdb": "node resetdb.js"
+  },
+  "author": "Kevin",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^7.0.3",
+    "sqlite3": "^5.1.7"
+  },
+  "keywords": []
+}

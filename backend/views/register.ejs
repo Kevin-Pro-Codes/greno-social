@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Register</h2>
+
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+
+
+
+<form method="POST" action="/register">
+  <div id="username-error" style="color: red; margin-bottom: 10px;"></div>
+
+  <input type="text" name="username" placeholder="Username" required />
+  <input type="email" name="email" placeholder="Email" required />
+  <input type="password" name="password" placeholder="Password" required />
+
+  <button type="submit" style="text-decoration: none; color: black;">Register</button>
+</form>
+
+
+
+<script>
+  const form = document.querySelector('form');
+  const usernameInput = document.querySelector('input[name="username"]');
+  const errorDiv = document.getElementById('username-error');
+
+  form.addEventListener('submit', function (e) {
+    const username = usernameInput.value.trim();
+    const firstLetter = username.charAt(0);
+
+    // Clear previous error
+    errorDiv.textContent = '';
+
+    if (firstLetter !== firstLetter.toUpperCase()) {
+      e.preventDefault(); // Prevent form submission
+      errorDiv.textContent = 'Username must start with an uppercase letter.';
+    }
+  });
+
+
+
+try {
+  await transporter.sendMail({
+    to: email,
+    subject: 'Verify your email',
+    html: `<p>Click to verify your account:</p><a href="${url}">${url}</a>`,
+  });
+  res.send('Verification email sent');
+} catch (err) {
+  console.error('Failed to send email:', err);
+  res.status(500).send('Failed to send verification email');
+}
+
+
+</script>
+
+
+    <p class="font-white" >Already have account? <a href="/login" style="text-decoration: none; color: #007bff;">Login</a></p>
+  </div>
+</body>
+</html>

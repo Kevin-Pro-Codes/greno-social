@@ -1,0 +1,10 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circle outline as path -->
+  <path d="M124,64a60,60 0 1,0 -120,0a60,60 0 1,0 120,0" stroke="#333" stroke-width="4" fill="none"></path>
+
+  <!-- Head as path -->
+  <path d="M84,44a20,20 0 1,0 -40,0a20,20 0 1,0 40,0" fill="#333"></path>
+
+  <!-- Body -->
+  <path d="M34 92c0-16 13.4-28 30-28s30 12 30 28v4c0 2.2-1.8 4-4 4H38c-2.2 0-4-1.8-4-4v-4z" fill="#333"></path>
+</svg>
