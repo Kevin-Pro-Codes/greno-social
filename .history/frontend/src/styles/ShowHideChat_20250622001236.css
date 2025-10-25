@@ -1,0 +1,58 @@
+/* Modify these styles */
+.show-hide-chat {
+  display: flex;
+  position: relative; /* Needed for positioning */
+  width: 2%;
+  margin-bottom: 2px;
+}
+
+
+.minimize-chat-btn {
+  width: 55%;
+  background: none;
+  border: none;
+  color: #a0cc3a;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  position: absolute; /* Position absolutely within chat-header-top */
+  left: 0; /* Stick to left */
+  margin-bottom: 220px;
+}
+
+.minimize-chat-btn:hover {
+  color: blue;
+}
+
+.maximize-chat-btn {
+  position: absolute;
+  width: 155%;
+  background: transparent;
+  border: none;
+  color: #a0cc3a;
+  cursor: pointer;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  transition: all 0.2s;
+  margin-top: 0; /* Remove any previous margin */
+  margin-left: -10px;
+}
+
+
+.maximize-chat-btn:hover {
+  color: blue;
+}
+
+/* Mobile adjustments */
+@media (max-width: 1024px) {
+  .show-hide-chat {
+    width: 30px;
+  }
+  
+  .maximize-chat-btn {
+   
+ transform: translateY(-40%);
+  }
+}

@@ -1,0 +1,30 @@
+.show-hide-chat {
+  position: relative;
+  height: 100vh; /* or any fixed height */
+  display: flex;
+  align-items: flex-start; /* optional */
+}
+
+
+
+.min-chat-btn:hover {
+  color: blue;
+}
+
+
+
+.max-chat-btn:hover {
+  color: blue;
+}
+
+/* Mobile adjustments */
+@media (max-width: 1024px) {
+  .show-hide-chat {
+    width: 30px;
+  }
+  
+  .max-chat-btn {
+   
+ transform: translateY(-40%);
+  }
+}

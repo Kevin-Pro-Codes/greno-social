@@ -1,0 +1,57 @@
+.show-hide-chat {
+  position: relative;
+  height: 1vh; /* or any fixed height */
+  display: flex;
+  align-items: flex-start; /* optional */
+}
+
+.max-chat-btn {
+  position: absolute;
+  top: 50px; /* 🔧 Adjust this to control vertical position */
+  left: -20px;
+   transform: translateY(-120%);
+  background: transparent;
+  border: none;
+  color: #a0cc3a;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.min-chat-btn {
+  width: 55%;
+  top: 1px;
+  background: none;
+  border: none;
+  color: #a0cc3a;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  position: absolute; /* Position absolutely within chat-header-top */
+  left: 0; /* Stick to left */
+  margin-bottom: 20px;
+}
+
+.min-chat-btn:hover {
+  color: blue;
+}
+
+
+
+.max-chat-btn:hover {
+  color: blue;
+}
+
+/* Mobile adjustments */
+@media (max-width: 1024px) {
+  .show-hide-chat {
+    width: 30px;
+  }
+  
+  .max-chat-btn {
+   
+ transform: translateY(-40%);
+  }
+}

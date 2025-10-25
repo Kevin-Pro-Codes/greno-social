@@ -1,14 +1,27 @@
-/* Modify these styles */
 .show-hide-chat {
+  position: relative;
+  height: 1vh; /* or any fixed height */
   display: flex;
-  position: relative; /* Needed for positioning */
-  width: 2%;
-  margin-bottom: 2px;
+  align-items: flex-start; /* optional */
 }
 
+.max-chat-btn {
+  position: absolute;
+ 
+  left: -20px;
 
-.minimize-chat-btn {
+  background: transparent;
+  border: none;
+  color: #a0cc3a;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.min-chat-btn {
   width: 55%;
+  top: 15px;
   background: none;
   border: none;
   color: #a0cc3a;
@@ -18,29 +31,29 @@
   align-items: center;
   position: absolute; /* Position absolutely within chat-header-top */
   left: 0; /* Stick to left */
+  margin-bottom: 20px;
 }
 
-.minimize-chat-btn:hover {
+.max-chat-btn,
+.min-chat-btn {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent; /* mobile devices */
+}
+
+.max-chat-btn:focus,
+.min-chat-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.min-chat-btn:hover {
   color: blue;
 }
 
-.maximize-chat-btn {
-  position: absolute;
-  width: 155%;
-  background: transparent;
-  border: none;
-  color: #a0cc3a;
-  cursor: pointer;
-  padding: 10px 0;
-  display: flex;
-  justify-content: center;
-  transition: all 0.2s;
-  margin-top: 0; /* Remove any previous margin */
-  margin-left: -10px;
-}
 
 
-.maximize-chat-btn:hover {
+.max-chat-btn:hover {
   color: blue;
 }
 
@@ -50,7 +63,7 @@
     width: 30px;
   }
   
-  .maximize-chat-btn {
+  .max-chat-btn {
    
  transform: translateY(-40%);
   }

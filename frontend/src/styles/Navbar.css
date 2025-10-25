@@ -1,129 +1,129 @@
-/* Navbar background: lighter black (dark gray) */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .navbar {
-  background-color: #000; /* dark gray, lighter than full black (#000) */
-  border-bottom: 1px solid #444; /* subtle darker border */
-  height: 69.5px;
-  margin-top: -23.5px;
-}
-
-/* Navbar text/icons color */
-.navbar-content, 
-.navbar-section, 
-.search-icon,
-.notification-btn
-{
-  color: white;
-}
-
-.navbar-wrapper {
+  background-color: #000;
+  border-bottom: 1px solid #444;
   width: 100%;
-  border-bottom: 1px solid lime; /* 👈 full-width bottom line */
 }
 
-.navbar-profile {
- height: 32px;
-  width: 32px;
-  margin-left: -8px;
-  filter: brightness(0) invert(1);
+/*
+.navbar-content * {
+  outline: 1px dashed red;
 }
-
-.navbar-logo {
-  color: white;
-  width: 44px;
-  height: 44px;  
-  margin-right: -15px;
-  margin-left: -7px;
-  
-  /* Remove this ↓ */
-
-}
-
-
-.navbar-section:first-child {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.navbar-section:last-child {
-  /* This ensures the logo aligns to the right */
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
- 
-
+*/
 
 .navbar-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%; /* Full width */
-  padding: 1rem 1.5rem;
-  /* ❌ Remove the following lines: */
-  /* max-width: 1200px; */
-  /* margin: 0 auto; */
+  padding: 0.1rem 0.2rem;
+  min-height: 40px; /* allow it to grow */
+  flex-wrap: nowrap; /* prevent wrapping */
+ 
 }
 
-/* Adjust the navbar-section gap if needed */
 .navbar-section {
   display: flex;
   align-items: center;
-  gap: 0.6rem; /* Reduced from 1.5rem */
+
 }
 
-
-.search-container {
+.navbar-left {
   position: relative;
+}
+
+.navbar-right {
   display: flex;
   align-items: center;
-  margin: 0; /* Remove any default margins */
+
+  margin-left: auto; /* This pushes it to the right */
 }
 
-.search-icon {
+.navbar-profile {
+  width: 27px;
+  height: 27px;
+  filter: brightness(0) invert(1);
+  cursor: pointer;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3%;
+}
+
+.profile-menu {
   position: absolute;
-  left: 8px; /* Reduce from 12px */
-  color: black;
-  flex-grow: 1;
+  top: 110%;
+  left: 0;
+  background-color: black;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 1px;
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+   text-align: left;
+  align-items: flex-start;
+  gap: 8px;
+  z-index: 1000;
 }
 
-.search-input {
-  padding: 0.4rem 0.8rem 0.4rem 2rem; /* Reduced padding */
-  border: 1px solid #e2e8f0;
-  border-radius: 5px;
-  width: 200px; /* Optional: reduce width if desired */
-  font-size: 0.85rem; /* Slightly smaller font */
-  transition: all 0.2s;
-  margin: 0; /* Ensure no margin */
+
+.profile-menu .change-name-button,
+.profile-menu .logout-button {
+  font-size: 1.5rem !important;
+  padding: 0.5rem 0.6rem;
+  width: 100%; /* optional for full-width look */
+  border: 1px solid transparent; /* ensures layout includes border space */
+    text-align: left;
+  align-items: flex-start;
 }
 
+.profile-menu button {
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+  
+}
 
+.profile-menu button:hover {
+  background-color: #222;
+}
 
+/* Right section */
 .notification-btn {
   position: relative;
   background: none;
   border: none;
-  cursor: pointer;
-  color: white;
+  cursor: pointer;  
+   display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.5rem;
+  margin-right: 2%;
   border-radius: 50%;
   transition: all 0.2s;
+  color: white;
 }
 
 .notification-btn:hover {
-  background-color: transparent;
   color: #4f46e5;
-}
-
-.notification-btn:focus {
-  outline: none;
-  
 }
 
 .notification-badge {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 2px;
+  right: 2px;
   background-color: #ef4444;
   color: white;
   border-radius: 50%;
@@ -135,19 +135,39 @@
   justify-content: center;
 }
 
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .navbar-content {
-    padding: 1rem;
-  }
-  
-  .search-input {
-    width: 180px;
-    padding: 0.5rem 1rem 0.5rem 2rem;
-  }
-  
-  .main-content {
-    padding: 5rem 1rem 1rem;
-  }
+/* Search */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  color: black;
+}
+
+.search-input {
+  padding: 0.4rem 0.8rem 0.4rem 2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background-color: white;
+  width: 200px;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.search-input::placeholder {
+  color: #a7a6a6;
+  font-family: 'Calibri', sans-serif;
+}
+
+/* Logo */
+.navbar-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+
+}
+

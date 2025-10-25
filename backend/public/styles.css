@@ -18,7 +18,7 @@ body, html {
   border-radius: 8px;
   border: 2px solid #a0cc3a;
  width: 90%;
-  max-width: 420px; /* Optional cap for desktop */
+  max-width: 500px; /* Optional cap for desktop */
   margin: 0 auto;   /* Center horizontally */
   text-align: center;
 }
