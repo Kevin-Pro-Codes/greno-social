@@ -1,70 +1,118 @@
-
-
-
+/* =============================================
+   1. ROOT LAYOUT – FLEXIBLE 3-COLUMN BASE
+   ============================================= */
 .three-box-layout {
   display: flex;
-  gap: 1rem;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(0.25rem, 0.7vw, 0.5rem);
   width: 100%;
-  height: calc(100vh - 80px); /* Subtract navbar height */
+  min-height: calc(100vh - 80px);
+  padding: 0 clamp(0.25rem, 0.7vw, 0.5rem);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: gap 0.3s ease;
 }
 
-/* Common box styles */
-.left-box, .center-box, .right-box {
-  background-color: #000;
-  padding: 1rem;
+/* =============================================
+   2. BOXES – SHARED STYLES
+   ============================================= */
+.left-box,
+.center-box,
+.right-box {
+  background: #000;
+  color: #fff;
   border-radius: 8px;
-  /* border: 2px solid #a0cc3a; */
-  overflow: auto; /* Ensure content scrolls if needed */
+  padding: 1rem 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+
+
+.left-box > *,
+.center-box > *,
+.right-box > * {
+  padding: 0 1rem;
   box-sizing: border-box;
 }
 
-@media (max-width: 1000px) {
+
+/* Hide scrollbars */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+.left-box,
+.center-box,
+.right-box {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =============================================
+   3. CENTER BOX – CAPPED AT 800px
+   ============================================= */
+.center-box {
+  flex: 0 1 800px;
+  min-width: 300px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   4. SIDE BOXES – FILL REMAINING SPACE
+   ============================================= */
+.side-box {
+  flex: 1 1 0;
+  min-width: 240px;
+  max-width: 400px;
+  opacity: clamp(0, (100vw - 800px) / 600, 1);
+  transition:
+    flex 0.35s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+}
+
+/* =============================================
+   5. EARLIER COLLAPSE (≈175% ZOOM) – STACKED WITH SPACING
+   ============================================= */
+@media (max-width: 1400px) {
   .three-box-layout {
     flex-direction: column;
-    height: auto;
-    min-height: calc(100vh - 70px);
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0.1rem;             /* Vertical space between containers */
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    padding: 0;     /* Equal horizontal space around containers */
+    margin: 0;
+    box-sizing: border-box;
   }
 
-  /* Reorder for mobile: Posts first, then Features, then Chat */
-  .center-box { order: 1; } /* Posts first */
-  .right-box { order: 2; }  /* Features second */
-  .left-box { order: 3; }   /* Chat last */
-
-
-  /* Give more space to Posts by default */
-  .center-box {
-    flex: 1;
+  .left-box,
+  .center-box,
+  .right-box {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    border-radius: 8px;    /* Keep nice rounded corners */
+    padding: 1rem;         /* Inner content padding */
+    margin-bottom: 1rem;             /* Outer margin handled by flex gap */
+    flex: 0 0 auto;
+    overflow: auto;
+    box-sizing: border-box;
   }
 
-/* Desktop layout */
-.right-box {
-  flex: 2;
-  width: 99%;
-  margin: 0 auto;          /* ← Centers the box */
-  resize: none;
-  overflow: hidden;
-  text-align: center;       /* Optional: centers text inside */
+  /* Stack order: Center (top), Left (middle), Right (bottom) */
+  .center-box { order: -1; }
+  .left-box   { order: 1; }
+  .right-box  { order: 2; }
+
+  .side-box {
+    opacity: 1;
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
 }
-
-
-/* Desktop layout */
-.left-box { 
-  flex: 3;
- width: 99%;
-  resize: none; /* Allows horizontal resizing */
-  overflow: hidden; /* Needed for resize to work */
-  text-align: center;
-
-}
-
-
-
-
-
-}
-
-
-
-
-
-

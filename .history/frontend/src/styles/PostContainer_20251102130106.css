@@ -1,0 +1,187 @@
+/* Keep only the styles that Bootstrap doesn't handle */
+.center-box {
+  min-width: 57%;
+  flex-shrink: 0;
+}
+
+/* Avatar Styles */
+.avatar-wrapper {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border: 3px solid #a0cc3a;
+  border-radius: 6%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.post-avatar {
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.icon-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 20px;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.avatar-wrapper:hover .post-avatar {
+  opacity: 0.5;
+}
+
+.avatar-wrapper:hover .icon-overlay {
+  opacity: 1;
+}
+
+.post-avatar-members {
+  width: 58px;
+  height: 58px;
+  border-radius: 4px;
+}
+
+/* Text Area */
+.post-text-area {
+  height: 80px;
+  font-family: 'Calibri', sans-serif;
+  font-size: 1.2rem;
+  background: #222;
+  color: white;
+  border: 1px solid #a0cc3a;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+.post-text-area::placeholder {
+  color: #666;
+}
+
+/* Buttons */
+.toolbar-btn {
+  background: #111;
+  border: 1px solid #a0cc3a;
+  color: #a0cc3a;
+  padding: 0.2rem 0.6rem;
+  padding-top: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s ease;
+}
+
+.toolbar-btn:hover {
+  background: #1a1a1a;
+}
+
+.post-button {
+  background: #a0cc3a;
+  color: #000;
+  width: 4.25rem;
+  border: 1px solid black;
+  padding: 0.2rem 1.2rem;
+  padding-top: 0.45rem;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding-bottom: 8px;
+  font-family: 'Calibri', sans-serif;
+}
+
+.post-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Text Colors */
+.nickname,
+.post-nickname {
+  color: #a0cc3a;
+}
+
+.nickname {
+  font-size: 1.5rem;
+}
+
+.post-nickname {
+  font-size: 1.2rem;
+}
+
+.post-body {
+  color: #ddd;
+}
+
+.timestamp-inline {
+  color: rgb(134, 134, 134);
+}
+
+/* Delete Button */
+.delete-button {
+  top: 8px;
+  right: 8px;
+  font-size: 1.5rem;
+  background: transparent;
+  color: red;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+/* Loading Dots */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background-color: #007bff;
+  opacity: 0;
+  animation: blink 1.5s infinite ease-in-out;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+/* Hide scrollbar */
+.center-box::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.center-box {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .avatar-wrapper {
+    width: 58px;
+    height: 58px;
+  }
+  
+  .center-box {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  .post-action-row {
+    flex-wrap: nowrap;
+  }
+}

@@ -1,0 +1,14 @@
+/* Only add custom styles if Bootstrap doesn't meet your needs */
+.container-fluid {
+  height: calc(100vh - 80px); /* Subtract navbar height */
+  padding: 1rem;
+}
+
+.bg-black {
+  background-color: #000 !important;
+}
+
+/* Ensure proper scrolling */
+.h-100 {
+  overflow: auto;
+}

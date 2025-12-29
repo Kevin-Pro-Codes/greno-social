@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { FaEllipsisH, FaImage, FaVideo, FaSmile } from 'react-icons/fa';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FaEllipsisH, FaImage, FaVideo, FaSmile, FaUser, FaUsers } from 'react-icons/fa';
 import profile_blue from '../assets/profile-blue.png';
-import profile from '../assets/profile.svg';
 import '../styles/Containers.css';
 import '../styles/PostContainer.css';
-
-
 
 function formatTimestamp(isoString) {
   if (!isoString) return 'Agora mesmo';
 
   const date = new Date(isoString);
-  date.setHours(date.getHours() - 3); // adjust timezone if needed
+  date.setHours(date.getHours() - 3);
 
   const options = {
     day: 'numeric',
@@ -27,78 +24,83 @@ function formatTimestamp(isoString) {
 function CenterBox({ profileUserId }) {
   const [postContent, setPostContent] = useState('');
   const [posts, setPosts] = useState([]);
-  const [activeTab, setActiveTab] = useState('all');
-  const [visiblePosts, setVisiblePosts] = useState([]); // what’s currently shown
-  const [nextIndex, setNextIndex] = useState(6); // how many posts to show next
+  const [visiblePosts, setVisiblePosts] = useState([]);
+  const [nextIndex, setNextIndex] = useState(10); // Changed from 6 to 10
+  const [loading, setLoading] = useState(false);
+  const [viewMode, setViewMode] = useState('my-posts'); // 'my-posts' or 'all-friends'
 
-const [user, setUser] = useState(() => {
-  try {
-    return JSON.parse(localStorage.getItem('user'));
-  } catch {
-    return null;
-  }
-});
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('user'));
+    } catch {
+      return null;
+    }
+  });
 
-useEffect(() => {
-  const url = profileUserId
-    ? `http://localhost:3000/api/posts/user/${profileUserId}`
-    : 'http://localhost:3000/api/posts';
+  const fetchPosts = useCallback(async () => {
+    if (!user?.id) return;
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
+    setLoading(true);
+    try {
+      let url;
+      if (profileUserId) {
+        url = `http://localhost:3000/api/posts/user/${profileUserId}`;
+      } else {
+        // Use the existing endpoint that returns all posts
+        url = 'http://localhost:3000/api/posts';
+      }
+
+      const res = await fetch(url, { credentials: 'include' });
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      const data = await res.json();
+
       setPosts(data);
-      setVisiblePosts(data.slice(0, 6));
-      setNextIndex(6);
-    })
-    .catch(err => console.error('Failed to fetch posts', err));
-}, [profileUserId]);
+      setVisiblePosts(data.slice(0, 10)); // Changed from 6 to 10
+      setNextIndex(10); // Changed from 6 to 10
+    } catch (err) {
+      console.error('Error fetching posts:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [profileUserId, user?.id]);
 
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
-useEffect(() => {
-  if (user && user.id) {
-    fetchUserPosts(user.avatar); // 👈 Pass current avatar
-  }
-}, [user?.id]);
+  // Filter posts based on selected mode
+  const getFilteredPosts = () => {
+    if (profileUserId) {
+      return visiblePosts.filter(p => p.user_id === parseInt(profileUserId));
+    }
+    if (viewMode === 'my-posts') {
+      return visiblePosts.filter(p => p.user_id === user.id);
+    }
+    // For 'all-friends', return all visible posts (already fetched from /api/posts)
+    return visiblePosts;
+  };
 
-const fetchUserPosts = async () => {
-  try {
-    const res = await fetch(`http://localhost:3000/api/posts/user/${user.id}`, {
-      credentials: 'include',
-    });
-
-    if (!res.ok) throw new Error('Failed to fetch user posts');
-
-    const userPosts = await res.json();
-    setPosts(userPosts);
-    setVisiblePosts(userPosts.slice(0, nextIndex));
-  } catch (err) {
-    console.error(err);
-  }
-};
-
+  const handleViewModeChange = (mode) => {
+    if (viewMode !== mode) {
+      setViewMode(mode);
+      setVisiblePosts(posts.slice(0, 10)); // Changed from 6 to 10
+      setNextIndex(10); // Changed from 6 to 10
+    }
+  };
 
   const handlePost = async () => {
-    if (postContent.trim() === '') return;
-
-    const newPostData = {
-      user_id: user.id,
-      author: user.name,
-      post: postContent,
-      avatar: user.avatar || null,
-    };
+    if (!user?.id || postContent.trim() === '') return;
+    const newPostData = { post: postContent };
 
     try {
       const res = await fetch('http://localhost:3000/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(newPostData),
       });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Failed to save post');
-      }
+      if (!res.ok) throw new Error('Failed to save post');
 
       const savedPost = await res.json();
       const updatedPosts = [savedPost, ...posts];
@@ -106,183 +108,195 @@ const fetchUserPosts = async () => {
       setVisiblePosts(updatedPosts.slice(0, nextIndex));
       setPostContent('');
     } catch (err) {
-      console.error('Failed to save post:', err);
+      console.error('Error posting:', err);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/posts/${id}`, {
-        method: 'DELETE',
-      });
+      await fetch(`http://localhost:3000/api/posts/${id}`, { method: 'DELETE', credentials: 'include' });
       const updatedPosts = posts.filter(p => p.id !== id);
       setPosts(updatedPosts);
       setVisiblePosts(updatedPosts.slice(0, nextIndex));
     } catch (err) {
-      console.error('Failed to delete post', err);
+      console.error('Error deleting post:', err);
     }
   };
 
-const handleShowMore = () => {
-  const nextPosts = posts.slice(visiblePosts.length, visiblePosts.length + 6).map(post =>
-    post.user_id === user.id && user.avatar
-      ? { ...post, avatar: user.avatar }
-      : post
-  );
+  const handleShowMore = () => {
+    const nextPosts = posts.slice(visiblePosts.length, visiblePosts.length + 10); // Changed from 6 to 10
+    setVisiblePosts(prev => [...prev, ...nextPosts]);
+    setNextIndex(prev => prev + 10); // Changed from 6 to 10
+  };
 
-  setVisiblePosts(prev => [...prev, ...nextPosts]);
-  setNextIndex(prev => prev + 6);
-};
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !user?.id) return;
 
+    const formData = new FormData();
+    formData.append('avatar', file);
 
-const handleAvatarChange = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+    try {
+      const res = await fetch(`http://localhost:3000/api/users/${user.id}/avatar`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
 
-  const formData = new FormData();
-  formData.append('avatar', file);
+      if (!res.ok) throw new Error('Failed to upload avatar');
+      const data = await res.json();
 
-  try {
-    const res = await fetch(`http://localhost:3000/api/users/${user.id}/avatar`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!res.ok) {
-      const error = await res.json();
-      throw new Error(error?.message || 'Failed to upload avatar');
+      const updatedUser = { ...user, avatar: data.filePath };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      fetchPosts();
+    } catch (err) {
+      console.error('Error uploading avatar:', err);
     }
+  };
 
-    const data = await res.json();
-
-    const updatedUser = {
-      ...user,
-      avatar: data.filePath, // Adjust this to match your backend's response
-    };
-
-    // 🔁 Update user state
-    setUser(updatedUser);
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-
-    // 🔁 Update all posts with the new avatar
-    setPosts(prevPosts =>
-      prevPosts.map(post =>
-        post.user_id === user.id ? { ...post, avatar: data.filePath } : post
-      )
+  if (!user) {
+    return (
+      <div className="center-box">
+        <p>Please log in to see posts.</p>
+      </div>
     );
-
-    setVisiblePosts(prevVisible =>
-      prevVisible.map(post =>
-        post.user_id === user.id ? { ...post, avatar: data.filePath } : post
-      )
-    );
-
-  } catch (err) {
-    console.error('Error uploading avatar:', err);
   }
-};
 
-
-
-const filteredPosts = profileUserId
-  ? visiblePosts.filter(post => post.user_id === profileUserId)
-  : visiblePosts;
+  const displayPosts = getFilteredPosts();
 
   return (
     <div className="center-box">
+      {loading && (
+        <div style={{ textAlign: 'center', padding: '1rem' }}>
+          <p>Loading posts...</p>
+        </div>
+      )}
+
       <div className="post-composer">
-      <div className="avatar-wrapper">
-  <label htmlFor="avatar-upload" className="avatar-label">
-    <img
-  src={user.avatar ? `http://localhost:3000/${user.avatar}` : profile_blue}
-  alt="User"
-  className="post-avatar"
-/>
-    <div className="icon-overlay">
-      <FaImage />
-    </div>
-  </label>
+        <div className="avatar-wrapper">
+          <label htmlFor="avatar-upload" className="avatar-label">
+            <img
+              src={user?.avatar ? `http://localhost:3000/${user.avatar}` : profile_blue}
+              alt="User"
+              className="post-avatar"
+            />
+            <div className="icon-overlay"><FaImage /></div>
+          </label>
 
-  <input
-    id="avatar-upload"
-    type="file"
-    accept="image/*"
-    style={{ display: 'none' }}
-    onChange={handleAvatarChange}
-  />
+          <input
+            id="avatar-upload"
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={handleAvatarChange}
+          />
+        </div>
 
-</div>       
         <div className="post-input-area">
-          <strong className="nickname">{user.name}</strong>
+          <div className="post-header-row">
+            <strong className="nickname">{user?.name || user?.username || 'Guest'}</strong>
+          </div>
+
+          {!profileUserId && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginBottom: '8px' }}>
+              <button
+                className={`btn ${viewMode === 'my-posts' ? 'btn-success' : 'btn-outline-success'}`}
+                onClick={() => handleViewModeChange('my-posts')}
+                title="My Posts"
+                type="button"
+                style={{
+                  fontSize: '28px',
+                  padding: '6px 9px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <FaUser />
+              </button>
+
+              <button
+                className={`btn ${viewMode === 'all-friends' ? 'btn-success' : 'btn-outline-success'}`}
+                onClick={() => handleViewModeChange('all-friends')}
+                title="All Friends"
+                type="button"
+                style={{
+                  fontSize: '28px',
+                  padding: '6px 9px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <FaUsers />
+              </button>
+            </div>
+          )}
 
           <textarea
             className="post-text-area"
             placeholder="You can post something..."
             value={postContent}
             onChange={(e) => setPostContent(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handlePost()}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handlePost();
+              }
+            }}
           />
 
-<div className="post-action-row">
-  <div className="toolbar-buttons">
-    <button className="toolbar-btn" title="Dots"><FaEllipsisH /></button>
-    <button className="toolbar-btn" title="Add Emoji"><FaSmile /></button>
-    {/*
-    <button className="toolbar-btn" title="Add Image"><FaImage /></button>
-    <button className="toolbar-btn" title="Add Video"><FaVideo /></button>
-    */} 
-    </div>
-
-  <div className="send-button-wrapper">
-    <button
-      className="post-button"
-      onClick={handlePost}
-      disabled={!postContent.trim()}
-    >
-      Send
-    </button>
-  </div>
-  
-  </div>
+          <div className="post-action-row">
+            <div className="toolbar-buttons">
+              <button type="button" className="toolbar-btn" title="Dots"><FaEllipsisH /></button>
+              <button type="button" className="toolbar-btn" title="Add Emoji"><FaSmile /></button>
+              <button type="button" className="toolbar-btn" title="Add Image"><FaImage /></button>
+              <button type="button" className="toolbar-btn" title="Add Video"><FaVideo /></button>
+            </div>
+            <div className="send-button-wrapper">
+              <button
+                className="post-button"
+                onClick={handlePost}
+                disabled={!postContent.trim()}
+              >
+                Send
+              </button>
+            </div>
+          </div>
         </div>
-        </div>
+      </div>
 
       <div className="posts-container">
-        {filteredPosts.length === 0 ? (
-          <div className="empty-posts">
-            {/*<p>No posts to show.</p>*/}
+        {!loading && displayPosts.length === 0 ? (
+          <div className="empty-posts" style={{ textAlign: 'center', padding: '2rem' }}>
+            <p>No posts found.</p>
+            {profileUserId ? (
+              <p>This user hasn't posted anything yet.</p>
+            ) : viewMode === 'my-posts' ? (
+              <p>You haven't posted anything yet. Share your first post!</p>
+            ) : (
+              <p>No posts from friends yet.</p>
+            )}
           </div>
         ) : (
           <>
-            {filteredPosts.map((post) => (
+            {displayPosts.map((post) => (
               <div className="post-sample" key={post.id}>
                 <div className="post-header">
- <img
-  src={
-    post.user_id === user.id && user.avatar
-      ? `http://localhost:3000/${user.avatar}`
-      : post.avatar
-        ? `http://localhost:3000/${post.avatar}`
-        : profile_blue
-  }
-   alt="User"
-  className="post-avatar-members"
-/>
-
+                  <img
+                    src={post.avatar ? `http://localhost:3000/${post.avatar}` : profile_blue}
+                    alt="User"
+                    className="post-avatar-members"
+                  />
                   <div className="post-user-info">
-                  <strong className="post-nickname">{post.author}</strong>
+                    <strong className="post-nickname">{post.author}</strong>
                     <span className="timestamp-inline">{formatTimestamp(post.timestamp)}</span>
                   </div>
                 </div>
                 <p className="post-body">{post.post}</p>
-
-                {(
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDelete(post.id)}
-                  >
-                    ✕
-                  </button>
+                {post.user_id === user.id && (
+                  <button className="delete-button" onClick={() => handleDelete(post.id)}>✕</button>
                 )}
               </div>
             ))}

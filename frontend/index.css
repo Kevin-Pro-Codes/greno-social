@@ -57,3 +57,30 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.posts-container {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.btn-success {
+  background-color: #a0cc3a !important;  /* your custom green */
+  border-color: #8db834 !important;      /* slightly darker border */
+  color: #000 !important;                /* black text for better contrast */
+}
+
+.btn-success:hover {
+  background-color: #93bd33 !important;  /* darker on hover */
+  border-color: #7fa92e !important;
+}
+
+.btn-outline-success {
+  color: #a0cc3a !important;
+  border-color: #a0cc3a !important;
+}
+
+.btn-outline-success:hover {
+  background-color: #a0cc3a !important;
+  color: #000 !important;
+}

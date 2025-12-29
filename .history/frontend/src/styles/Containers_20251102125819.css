@@ -1,0 +1,41 @@
+/* Reset Bootstrap styles for our components */
+.custom-layout {
+  height: calc(100vh - 80px);
+  padding: 1rem;
+}
+
+.custom-row {
+  height: 100%;
+  margin: 0;
+}
+
+.custom-col {
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+/* Ensure your component styles aren't overridden */
+.custom-col > * {
+  background-color: #000 !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  height: 100% !important;
+  overflow: auto !important;
+}
+
+@media (max-width: 1000px) {
+  .custom-layout {
+    height: auto;
+    min-height: calc(100vh - 70px);
+  }
+  
+  .custom-col {
+    margin-bottom: 1rem;
+  }
+  
+  .custom-col > * {
+    height: auto !important;
+    min-height: 300px;
+  }
+}

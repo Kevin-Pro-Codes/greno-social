@@ -1,0 +1,73 @@
+.three-box-layout {
+  height: calc(100vh - 80px);
+  min-height: 0; /* Crucial for flexbox shrinking */
+}
+
+/* Common box styles */
+.left-box, .center-box, .right-box {
+  background-color: #000;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow: auto; /* Changed to auto for proper scrolling */
+  width: 100%;
+  min-height: 0; /* Crucial for flexbox shrinking */
+}
+
+/* Desktop layout */
+@media (min-width: 1200px) {
+  .three-box-layout {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .left-box {
+    flex: 0 0 350px;
+    width: auto;
+    max-width: 350px;
+  }
+  
+  .center-box {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 500px;
+  }
+  
+  .right-box {
+    flex: 0 0 280px;
+    width: auto;
+    max-width: 280px;
+  }
+}
+
+/* Mobile layout */
+@media (max-width: 1199px) {
+  .three-box-layout {
+    gap: 1rem;
+    padding: 0;
+  }
+  
+  .left-box, .center-box, .right-box {
+    border-radius: 0;
+    flex: 1 1 0;
+    min-height: 300px;
+  }
+}
+
+/* Custom utility for proper flexbox shrinking */
+.min-height-0 {
+  min-height: 0 !important;
+}
+
+/* Hide scrollbars but allow scrolling */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+.left-box,
+.center-box,
+.right-box {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

@@ -1,0 +1,54 @@
+/* Hide scrollbar */
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+/* Make the right-box take full height and remove extra space */
+.right-box {
+  min-width: 15%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;   
+  justify-content: flex-start;
+  align-items: stretch;     
+  padding: 0;               
+  margin: 0;                
+  box-sizing: border-box;
+}
+
+/* Green outline and black background match entirely */
+.tools-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;      
+  justify-content: flex-start;
+  gap: 0.5rem;
+  border: 2px solid #a0cc3a;  /* green outline */
+  border-radius: 8px;
+  background-color: #000;      /* black container */
+  width: 100%;                 /* full width of right-box */
+  box-sizing: border-box;
+  margin: 0;                    
+  padding: 0;                  /* remove internal padding to match green outline */
+}
+
+/* Icon items styling */
+.icon-item,
+.icon-item-last {
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  width: 100%;
+  padding: 1rem;               /* spacing inside buttons */
+}
+
+.icon-item:hover,
+.icon-item-last:hover {
+  background-color: #222;
+}
+
+/* Optional: ensure border color consistency */
+.border-success {
+  border-color: #a0cc3a !important;
+}

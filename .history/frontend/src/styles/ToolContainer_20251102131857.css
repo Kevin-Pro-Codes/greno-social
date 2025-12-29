@@ -1,0 +1,48 @@
+.right-box {
+  width: 100%;
+  min-width: 15%;
+  max-width: 100%;
+  background-color: transparent;
+}
+
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+.tools-section {
+  background-color: #111;
+  border: 1px solid #a0cc3a;
+  border-radius: 8px;
+  gap: 0.5rem;
+}
+
+.icon-item,
+.icon-item-last {
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  width: 100%;
+}
+
+.icon-item:hover,
+.icon-item-last:hover {
+  background-color: #222;
+}
+
+.icon-item-last {
+  margin-bottom: 0.1rem;
+}
+
+.tool-icon {
+  font-size: 1.3rem;
+  margin-right: 1rem;
+  width: 30px;
+  text-align: center;
+  color: #a0cc3a;
+}
+
+.tool-label {
+  font-size: 0.95rem;
+  color: white;
+}

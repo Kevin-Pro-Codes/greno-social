@@ -1,0 +1,115 @@
+/* =============================================
+   1. ROOT LAYOUT – FLEXIBLE 3-COLUMN BASE
+   ============================================= */
+.three-box-layout {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(0.25rem, 0.7vw, 0.5rem);
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: 0 clamp(0.25rem, 0.7vw, 0.5rem);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: gap 0.3s ease;
+}
+
+/* =============================================
+   2. BOXES – SHARED STYLES
+   ============================================= */
+.left-box,
+.center-box,
+.right-box {
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  padding: 1rem 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.left-box > *,
+.center-box > *,
+.right-box > * {
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Hide scrollbars */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+.left-box,
+.center-box,
+.right-box {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =============================================
+   3. CENTER BOX – CAPPED AT 800px
+   ============================================= */
+.center-box {
+  flex: 0 1 800px;
+  min-width: 300px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   4. SIDE BOXES – FILL REMAINING SPACE
+   ============================================= */
+.side-box {
+  flex: 1 1 0;
+  min-width: 240px;
+  max-width: 400px;
+  opacity: clamp(0, (100vw - 800px) / 600, 1);
+  transition:
+    flex 0.35s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+}
+
+/* =============================================
+   5. EARLIER COLLAPSE (≈175% ZOOM) – STACKED WITH SPACING
+   ============================================= */
+@media (max-width: 1400px) {
+  .three-box-layout {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+              /* Vertical space between containers */
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .left-box,
+  .center-box,
+  .right-box {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    border-radius: 8px;    /* Keep nice rounded corners */   
+    margin: 0;             /* Outer margin handled by flex gap */
+    flex: 0 0 auto;
+    overflow: auto;
+    box-sizing: border-box;
+  }
+
+  /* Stack order: Center (top), Left (middle), Right (bottom) */
+  .center-box { order: -1; }
+  .left-box   { order: 1; }
+  .right-box  { order: 2; }
+
+  .side-box {
+    opacity: 1;
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+}

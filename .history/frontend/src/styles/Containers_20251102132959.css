@@ -1,0 +1,22 @@
+.three-box-layout {
+  height: calc(100vh - 80px); /* Subtract navbar height */
+}
+
+.left-box, .center-box, .right-box {
+  background-color: #000;
+  border-radius: 8px;
+}
+
+/* Hide scrollbars if needed */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+.left-box,
+.center-box,
+.right-box {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

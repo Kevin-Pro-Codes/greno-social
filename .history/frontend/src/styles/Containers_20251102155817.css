@@ -1,0 +1,107 @@
+/* =============================================
+   1. ROOT LAYOUT – centered, fluid
+   ============================================= */
+.three-box-layout {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: clamp(0.5rem, 2vw, 1rem);
+  box-sizing: border-box;
+  transition: gap 0.3s ease;
+}
+
+/* =============================================
+   2. COMMON BOX STYLES
+   ============================================= */
+.left-box,
+.center-box,
+.right-box {
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Hide scrollbars */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar { display: none; }
+.left-box,
+.center-box,
+.right-box {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =============================================
+   3. SIDE PANELS – SHRINK & FADE EARLIER
+   ============================================= */
+.side-box {
+  /* Start shrinking earlier: 150px → 300px (was 180→350) */
+  flex: 0 1 clamp(150px, 20vw, 300px);
+  max-width: clamp(150px, 20vw, 300px);
+  min-width: 0;
+
+  /* Fade out starts at ~1000px (was ~1200px) */
+  opacity: clamp(0, (100vw - 500px) / 500, 1);
+
+  transition:
+    flex 0.35s ease,
+    max-width 0.35s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+}
+
+.side-box[style*="max-width: 0px"],
+.side-box[style*="max-width: 0"] {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* =============================================
+   4. CENTER BOX – capped
+   ============================================= */
+.center-box {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   5. MOBILE – COLLAPSE AT 750px (EARLIER)
+   ============================================= */
+@media (max-width: 750px) {
+  .three-box-layout {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .center-box,
+  .left-box,
+  .right-box {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .center-box { order: -1; }
+  .left-box   { order: 1; }
+  .right-box  { order: 2; }
+
+  .side-box {
+    flex: 0 0 auto;
+    max-width: 100%;
+    opacity: 1;
+    padding: 1rem;
+  }
+}

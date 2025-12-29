@@ -1,0 +1,37 @@
+.three-box-layout {
+  height: calc(100vh - 80px);
+  min-height: 500px;
+}
+
+/* Common box styles */
+.left-box, .center-box, .right-box {
+  background-color: #000;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow: auto;
+  flex-shrink: 0;
+}
+
+/* Center box stays fixed */
+.center-box {
+  flex-shrink: 0 !important;
+}
+
+/* Side boxes can shrink */
+.left-box, .right-box {
+  flex-shrink: 1 !important;
+}
+
+/* Hide scrollbars */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+.left-box,
+.center-box,
+.right-box {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

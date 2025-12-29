@@ -1,0 +1,30 @@
+<div className="three-box-layout d-flex flex-column flex-xl-row justify-content-center w-100 h-100 p-0">
+  {/* Left Chat - Last when collapsed */}
+  <div className="left-box order-3 h-100 d-none d-xl-block" style={{
+    width: 'clamp(0px, calc(25vw - 200px), 350px)',
+    minWidth: '0px',
+    opacity: 'clamp(0, calc(40vw - 320px), 1)',
+    transition: 'all 0.3s ease'
+  }}>
+    <LeftBox isChatMinimized={isChatMinimized} toggleChat={toggleChat} />
+  </div>
+  
+  {/* Center Posts - Always first/top */}
+  <div className="center-box order-1 h-100 w-100" style={{
+    width: 'clamp(400px, 50vw, 800px)',
+    minWidth: '400px',
+    maxWidth: '800px'
+  }}>
+    <CenterBox />
+  </div>
+  
+  {/* Right Tools - Middle when collapsed */}
+  <div className="right-box order-2 h-100 d-none d-xl-block" style={{
+    width: 'clamp(0px, calc(25vw - 200px), 280px)',
+    minWidth: '0px',
+    opacity: 'clamp(0, calc(40vw - 320px), 1)',
+    transition: 'all 0.3s ease'
+  }}>
+    <RightBox />
+  </div>
+</div>

@@ -111,19 +111,7 @@ db.serialize(() => {
     if (err) console.error('❌ Failed to fetch users:', err);
     else console.log('📋 Users in DB:', rows);
   });
-
-
-
-
-
   
 });
-
-
-
-
-
-
-
 
 module.exports = db;

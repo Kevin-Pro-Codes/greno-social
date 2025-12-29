@@ -1,0 +1,121 @@
+/* =============================================
+   1. ROOT LAYOUT – centered, fluid
+   ============================================= */
+.three-box-layout {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: clamp(0.5rem, 2vw, 1rem);
+  box-sizing: border-box;
+  transition: gap 0.3s ease;
+}
+
+/* =============================================
+   2. COMMON BOX STYLES
+   ============================================= */
+.left-box,
+.center-box,
+.right-box {
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Hide scrollbars */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar { display: none; }
+.left-box,
+.center-box,
+.right-box {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =============================================
+   3. SIDE PANELS – shrink from centre (row layout)
+   ============================================= */
+.side-box {
+  flex: 0 1 clamp(180px, 22vw, 350px);
+  max-width: clamp(180px, 22vw, 350px);
+  min-width: 0;
+  opacity: clamp(0, (100vw - 600px) / 600, 1);
+  transition:
+    flex 0.35s ease,
+    max-width 0.35s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+}
+
+/* Remove padding only while the panel is *still* in the row (i.e. not collapsed) */
+.side-box[style*="max-width: 0px"],
+.side-box[style*="max-width: 0"] {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* =============================================
+   4. CENTER BOX – stays centred, capped
+   ============================================= */
+.center-box {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   5. MOBILE – vertical stack (center → left → right)
+   ============================================= */
+@media (max-width: 900px) {
+  .three-box-layout {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .center-box {
+    order: -1;               /* centre on top */
+    max-width: none;         /* full width */
+  }
+
+  .left-box  { order: 1; }    /* left under centre */
+  .right-box { order: 2; }    /* right under left */
+
+  /* ----- IMPORTANT: RE-ENABLE side panels ----- */
+  .side-box {
+    flex: 0 0 100%;          /* full width */
+    max-width: 100%;         /* override clamp */
+    min-width: 0;
+    opacity: 1;              /* fully visible */
+    padding: 1rem;
+    overflow-y: auto;
+    transition:
+      flex 0.4s ease,
+      max-width 0.4s ease,
+      opacity 0.3s ease,
+      padding 0.3s ease;
+  }
+}
+
+/* Optional: subtle "expand" hint when sides are collapsed in row */
+@media (max-width: 900px) {
+  .side-box::before {
+    content: '>';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #555;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
+  }
+}

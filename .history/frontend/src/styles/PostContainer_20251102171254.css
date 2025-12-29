@@ -1,0 +1,237 @@
+.center-box { 
+  flex: 1;
+  min-width: 57%;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.toolbar-btn {
+  background: #111;
+  border: 1px solid #a0cc3a;
+  color: #a0cc3a;
+  padding: 0.6rem 0.9rem; /* Equal top/bottom (0.6rem) and sides (0.9rem) */
+  border-radius: 6px; 
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar-btn:hover {
+  background: #1a1a1a;
+}
+
+.post-avatar-members {
+  width: 58px;
+  height: 58px; 
+  border-radius: 4px;
+  display: block;
+}
+
+.post-input-area {
+  flex: 1;
+}
+
+.post-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+}
+
+.toolbar-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.send-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.post-text-area {
+  width: 100%;
+  height: 80px;
+  font-family: 'Calibri', sans-serif;
+  font-size: 1.2rem;
+  background: #222; 
+  color: white;
+  border: 1px solid #a0cc3a;
+  border-radius: 6px;
+  padding: 0.5rem;
+  resize: vertical;
+  margin-top: 0.25rem;
+}
+
+.post-text-area::placeholder {
+  color: #666;
+  opacity: 1;
+}
+
+.post-button {
+  background: #a0cc3a;
+  color: #000;
+  width: 4.25rem;
+  border: 1px solid black;
+  padding: 0.2rem 1.2rem;
+  padding-top: 0.45rem;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding-bottom: 8px;
+  font-family: 'Calibri', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.post-sample {
+  position: relative;
+  background: #111;
+  padding: 1rem;  
+  padding-bottom: 2rem;
+  border-radius: 8px;
+  border: 1px solid #a0cc3a;
+  margin-bottom: 1.5rem;
+}
+
+.post-nickname {
+  color: #a0cc3a;
+  font-weight: bold;
+  display: block;
+  font-size: 1.2rem;
+}
+
+.post-user-info {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.post-composer {
+  display: flex;
+  gap: 1rem;
+  background: #111;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.avatar-wrapper {
+  width: 55px;           /* size of the avatar container */
+  height: 55px;
+  border-radius: 8px;    /* squared with round corners */
+  overflow: hidden;
+  border: 2px solid #a0cc3a; /* keep your existing border */
+  flex-shrink: 0;
+  position: relative;
+}
+
+.post-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* ensures the image fits the box without stretching */
+  display: block;
+}
+
+
+.icon-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 20px;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+  pointer-events: none;
+}
+
+.avatar-wrapper:hover .post-avatar {
+  opacity: 0.5;
+}
+
+.avatar-wrapper:hover .icon-overlay {
+  opacity: 1;
+}
+
+.post-header {
+  display: flex;  
+  gap: 1rem;
+  align-items: center;
+}
+
+.post-body {
+  color: #ddd;
+  margin: 0;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background-color: #007bff;
+  opacity: 0;
+  animation: blink 1.5s infinite ease-in-out;
+}
+
+.post-dots:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.delete-button {
+  position: absolute;
+  top: 1px;
+  right: 8px;
+  font-size: 1.5rem;
+  background: transparent;
+  color: red;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.nickname {
+  color: #a0cc3a;
+  font-weight: bold;
+  font-size: 1.5rem;
+  display: block;
+}
+
+.timestamp-inline {
+  font-size: 1rem;
+  color: rgb(134, 134, 134);
+}
+
+/* Hide scrollbar */
+.center-box::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.center-box {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

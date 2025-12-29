@@ -1,0 +1,34 @@
+<div className="three-box-layout d-flex justify-content-center w-100 h-100 p-3">
+  {/* Left Chat - Decreases faster */}
+  <div className="left-box h-100" style={{
+    flex: '0 1 auto',
+    width: 'max(0px, min(350px, 35vw - 350px))',
+    minWidth: '0px',
+    opacity: 'max(0, min(1, 40vw - 400px))',
+    transition: 'all 0.3s ease'
+  }}>
+    <LeftBox isChatMinimized={isChatMinimized} toggleChat={toggleChat} />
+  </div>
+  
+  {/* Center Posts - Increases more */}
+  <div className="center-box h-100" style={{
+    flex: '1 0 auto',
+    width: 'clamp(700px, 80vw, 1200px)',
+    minWidth: '700px',
+    maxWidth: '1200px',
+    margin: '0 1.5rem'
+  }}>
+    <CenterBox />
+  </div>
+  
+  {/* Right Tools - Decreases faster */}
+  <div className="right-box h-100" style={{
+    flex: '0 1 auto',
+    width: 'max(0px, min(280px, 35vw - 350px))',
+    minWidth: '0px',
+    opacity: 'max(0, min(1, 40vw - 400px))',
+    transition: 'all 0.3s ease'
+  }}>
+    <RightBox />
+  </div>
+</div>

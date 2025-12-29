@@ -1,0 +1,43 @@
+.three-box-layout {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  height: calc(100vh - 80px);
+  padding: 0 1rem;
+}
+
+.left-box-container,
+.center-box-container, 
+.right-box-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Keep your original box styles but wrap them */
+.left-box-container {
+  flex: 3;
+  min-width: 0; /* Important for flexbox shrinking */
+}
+
+.center-box-container {
+  flex: 4; /* Adjust based on your needs */
+  min-width: 0;
+}
+
+.right-box-container {
+  flex: 2;
+  min-width: 0;
+}
+
+/* Mobile layout */
+@media (max-width: 1000px) {
+  .three-box-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 70px);
+  }
+
+  .center-box-container { order: 1; }
+  .right-box-container { order: 2; }
+  .left-box-container { order: 3; }
+}

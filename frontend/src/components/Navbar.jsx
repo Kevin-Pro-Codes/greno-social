@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiSearch, FiBell } from 'react-icons/fi';
 import { CgProfile } from 'react-icons/cg';
 import logo from '../assets/greeno.jpg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Navbar.css';
 
 function Navbar({ searchQuery, setSearchQuery }) {
@@ -23,73 +24,95 @@ function Navbar({ searchQuery, setSearchQuery }) {
   }, []);
 
   const handleLogout = async () => {
-  try {
-    const res = await fetch('/api/logout', { method: 'POST' });
-    if (res.ok) {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('userData');
-      localStorage.removeItem('isAuthenticated'); // <-- ADD THIS
-      navigate('/login');
-    } else {
-      console.error('Logout failed');
-      // Optionally show error to user
+    try {
+      const res = await fetch('/api/logout', { method: 'POST' });
+      if (res.ok) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('isAuthenticated');
+        navigate('/login');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Network error during logout:', error);
     }
-  } catch (error) {
-    console.error('Network error during logout:', error);
-    // Optionally show error to user
-  }
-  setShowProfileMenu(false);
-};
+    setShowProfileMenu(false);
+  };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-content">
-        <div
-          className="navbar-section navbar-left"
-          ref={profileRef}
-          style={{ position: 'relative', display: 'inline-block' }}
-        >
-          <CgProfile
-            className="navbar-profile"
-            size={30}
-            onClick={() => setShowProfileMenu(!showProfileMenu)}
-            style={{ cursor: 'pointer' }}
-          />
-     {showProfileMenu && (
-  <div className="profile-menu">
-    <button
-      onClick={() => {
-        setShowProfileMenu(false);
-        // Aqui pode adicionar função para "Change Name"
-      }}
-      className="change-name-button"
-    >
-      Change Name
-    </button>
-    <button onClick={handleLogout} className="logout-button">
-      Logout
-    </button>
-  </div>
-)}
+    <nav className="navbar navbar-dark bg-black">
+      <div className="container-fluid">
+        {/* Left side - Profile */}
+        <div className="d-flex align-items-center">
+          <div ref={profileRef} className="position-relative">
+            <CgProfile
+              className="navbar-profile cursor-pointer"
+              size={30}
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              style={{ cursor: 'pointer', filter: 'brightness(0) invert(1)' }}
+            />
+            
+            {showProfileMenu && (
+              <div className="profile-menu position-absolute start-0 mt-1 bg-black border border-secondary rounded shadow">
+                <button
+                  onClick={() => setShowProfileMenu(false)}
+                  className="change-name-button btn btn-link text-white text-decoration-none p-2 w-100 text-start"
+                >
+                  Change Name
+                </button>
+                <button 
+                  onClick={handleLogout} 
+                  className="logout-button btn btn-link text-white text-decoration-none p-2 w-100 text-start"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right side content */}
-        <div className="navbar-section navbar-right">
-          <button className="notification-btn">
-            <FiBell size={20} />
-            <span className="notification-badge">11</span>
-          </button>
-          <div className="search-container">
-            <FiSearch className="search-icon" />
+        <div className="d-flex align-items-center gap-3">
+          {/* Notification Button */}
+  <button className="btn btn-link text-white position-relative p-1">
+  <FiBell size={22} />
+
+  <span
+    className="position-absolute top-0 start-100 translate-middle bg-danger text-white rounded-circle d-flex align-items-center justify-content-center fw-bold"
+    style={{
+      width: '19px',
+      height: '19px',
+      fontSize: '0.6rem',
+      lineHeight: '1',
+    }}
+  >
+    11
+  </span>
+</button>
+
+
+
+          {/* Search */}
+          <div className="position-relative">
+            <FiSearch className="position-absolute top-50 start-0 translate-middle-y ms-2 text-black" />
             <input
               type="text"
               placeholder="Search on Greeno..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
+              className="form-control ps-4"
+              style={{width: '200px', fontSize: '0.85rem'}}
             />
           </div>
-          <img src={logo} alt="Company Logo" className="navbar-logo" />
+
+          {/* Logo */}
+          <img 
+            src={logo} 
+            alt="Company Logo" 
+            className="navbar-logo rounded"
+            style={{width: '40px', height: '40px', objectFit: 'cover'}}
+          />
         </div>
       </div>
     </nav>

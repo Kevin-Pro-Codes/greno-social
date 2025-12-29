@@ -1,0 +1,48 @@
+.three-box-layout {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  height: calc(100vh - 80px); /* Subtract navbar height */
+}
+
+/* Common box styles */
+.left-box, .center-box, .right-box {
+  background-color: #000;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+/* Desktop layout */
+.right-box {
+  flex: 2;
+  width: 99%;
+  margin: 0 auto;
+  resize: none;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Desktop layout */
+.left-box { 
+  flex: 2;
+  width: 99%;
+  resize: none;
+  overflow: hidden;
+  text-align: center;
+}
+
+.center-box {
+  flex: 1;
+}
+
+/* Hide scrollbars */
+.three-box-layout::-webkit-scrollbar {
+  display: none;
+}
+
+.three-box-layout {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

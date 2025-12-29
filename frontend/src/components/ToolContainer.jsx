@@ -7,21 +7,30 @@ import '../styles/Containers.css';
 function RightBox() {
   return (
     <div className="right-box">
-      <div className="tools-section">     
-       <div className="icon-item"><FaUser /> <span>Profile</span></div> 
-        <div className="icon-item"><FaUsers size={21}/> <span>Friends</span></div>           
-           <div className="icon-item"><FaCommentDots /> <span>Chats</span></div>  
-            <div className="icon-item"><FaListAlt /> <span>Posts</span></div>              
-               <div className="icon-item-last"><FaRegCalendarAlt size={19} /> <span>Events</span></div>     
-        {/* 
-        <div className="icon-item"><FaBell /> <span>Notifications</span></div>       
-         <div className="icon-item"><FaUsersCog /> <span>Groups -</span></div>
-         <div className="icon-item"><FaImage /> <span>Gallery -</span></div>
-        <div className="icon-item"><FaPlayCircle /> <span>Videos -</span></div>  
-        */}     
-        
-      </div>
-    </div>
+  <div className="tools-section">
+    <div className="icon-item d-flex align-items-center text-white w-100 p-3 rounded">
+      <FaUser /> 
+      <span className="ms-2">Profile</span>
+    </div> 
+    <div className="icon-item d-flex align-items-center text-white w-100 p-3 rounded">
+      <FaUsers size={21}/> 
+      <span className="ms-2">Friends</span>
+    </div>           
+    <div className="icon-item d-flex align-items-center text-white w-100 p-3 rounded">
+      <FaCommentDots /> 
+      <span className="ms-2">Chats</span>
+    </div>  
+    <div className="icon-item d-flex align-items-center text-white w-100 p-3 rounded">
+      <FaListAlt /> 
+      <span className="ms-2">Posts</span>
+    </div>              
+    <div className="icon-item-last d-flex align-items-center text-white w-100 p-3 rounded mb-0">
+      <FaRegCalendarAlt size={19} /> 
+      <span className="ms-2">Events</span>
+    </div>     
+  </div>
+</div>
+
   );
 }
 

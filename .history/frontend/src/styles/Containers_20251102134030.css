@@ -1,0 +1,55 @@
+.three-box-layout {
+  height: calc(100vh - 80px);
+  padding: 0 1rem;
+}
+
+/* Common box styles */
+.left-box, .center-box, .right-box {
+  background-color: #000;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow: auto;
+  height: 100%;
+}
+
+/* Ensure posts have minimum width */
+.min-width-500 {
+  min-width: 500px;
+}
+
+/* Hide scrollbars */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+.left-box,
+.center-box,
+.right-box {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Mobile behavior using Bootstrap breakpoints */
+@media (max-width: 992px) {
+  .three-box-layout {
+    flex-direction: column !important;
+    height: auto;
+    min-height: calc(100vh - 70px);
+  }
+  
+  .left-box,
+  .center-box,
+  .right-box {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 400px !important; /* Fixed height on mobile */
+    flex: none !important;
+  }
+  
+  .min-width-500 {
+    min-width: 100% !important;
+  }
+}

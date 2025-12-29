@@ -1,0 +1,107 @@
+/* =============================================
+   1. ROOT LAYOUT – always centered
+   ============================================= */
+.three-box-layout {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(0.5rem, 1.5vw, 1.5rem);
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: clamp(0.5rem, 1.5vw, 1rem);
+  box-sizing: border-box;
+  transition: all 0.35s ease;
+  flex-wrap: wrap; /* KEY: allows natural wrap */
+}
+
+/* =============================================
+   2. COMMON BOX STYLES
+   ============================================= */
+.left-box,
+.center-box,
+.right-box {
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+/* Hide scrollbars */
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar { display: none; }
+.left-box,
+.center-box,
+.right-box {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =============================================
+   3. SIDE PANELS – shrink early, fade early
+   ============================================= */
+.side-box {
+  /* Shrink from 300px → 140px, starts collapsing at ~950px */
+  flex: 0 1 clamp(140px, 19vw, 300px);
+  max-width: clamp(140px, 19vw, 300px);
+
+  /* Fade out starts at ~950px */
+  opacity: clamp(0, (100vw - 550px) / 400, 1);
+
+  transition:
+    flex 0.35s ease,
+    max-width 0.35s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
+}
+
+/* Collapse padding when hidden */
+.side-box {
+  padding: clamp(0rem, (100vw - 950px) * 999, 1rem);
+  overflow: hidden;
+}
+
+/* =============================================
+   4. CENTER BOX – always centered, capped
+   ============================================= */
+.center-box {
+  flex: 1 1 100%;
+  max-width: 800px;
+  min-width: 280px;
+  order: -1; /* Always on top when wrapping */
+  margin: 0 auto;
+}
+
+/* =============================================
+   5. AUTO COLLAPSE & CENTERED STACK – NO MEDIA!
+   ============================================= */
+
+/* When sides shrink to min → they wrap below */
+.three-box-layout {
+  /* Force wrap when total width < ~950px */
+  --collapse-trigger: 950px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Side panels become full-width blocks when wrapped */
+.left-box,
+.right-box {
+  flex-basis: 100%;
+  max-width: 100%;
+  opacity: 1;
+  padding: 1rem;
+  order: 1;
+}
+
+/* Ensure center stays on top */
+.center-box { order: -1; }
+
+/* Final centered container */
+.three-box-layout {
+  max-width: min(800px, 95vw);
+  margin: 0 auto;
+}

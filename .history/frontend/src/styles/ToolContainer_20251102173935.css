@@ -1,0 +1,50 @@
+
+
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+.right-box {
+  min-width: 15%;
+  max-width: 100%;
+  display: flex;
+  justify-content: stretch;  /* stretch children to fill horizontal space */
+  align-items: flex-start;
+  padding: 0;                /* remove extra outer padding */
+  box-sizing: border-box;
+}
+
+.tools-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;      
+  justify-content: flex-start;
+  gap: 0.5rem;
+  border: 2px solid #a0cc3a;  /* green outline */
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #000;      
+  width: 100%;                 /* fill the right-box completely */
+  margin: 0;                    /* remove any margin */
+  box-sizing: border-box;
+}
+
+
+
+.icon-item,
+.icon-item-last {
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  width: 100%;
+}
+
+.icon-item:hover,
+.icon-item-last:hover {
+  background-color: #222;
+}
+
+.border-success {
+  border-color: #a0cc3a !important;
+}

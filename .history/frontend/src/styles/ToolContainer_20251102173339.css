@@ -1,0 +1,40 @@
+.right-box {
+  min-width: 15%;
+  max-width: 100%;
+}
+
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+.tools-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 2px solid #a0cc3a; /* green outline around entire container */
+  border-radius: 8px;         /* optional: rounded corners for the outline */
+  padding: 1rem;              /* inner spacing stays */
+  background-color: #000;      /* ensure the container stays black */
+  box-sizing: border-box;
+}
+
+
+.icon-item,
+.icon-item-last {
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  width: 100%;
+}
+
+.icon-item:hover,
+.icon-item-last:hover {
+  background-color: #222;
+}
+
+.border-success {
+  border-color: #a0cc3a !important;
+}

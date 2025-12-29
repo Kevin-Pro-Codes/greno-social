@@ -1,0 +1,146 @@
+/* -------------------------------------------------
+   1. Root layout – flex, centered, full height
+   ------------------------------------------------- */
+.three-box-layout {
+  display: flex;
+  justify-content: center;   /* keeps everything centred */
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: 0 1rem;
+  box-sizing: border-box;
+  transition: gap 0.3s ease;
+}
+
+/* -------------------------------------------------
+   2. Common box styles
+   ------------------------------------------------- */
+.left-box,
+.center-box,
+.right-box {
+  background: #000;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  /* hide scrollbars */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.left-box::-webkit-scrollbar,
+.center-box::-webkit-scrollbar,
+.right-box::-webkit-scrollbar {
+  display: none;
+}
+
+/* -------------------------------------------------
+   3. Desktop – three columns, shrink from centre
+   ------------------------------------------------- */
+@media (min-width: 1200px) {
+  .left-box  { flex: 0 1 350px; }   /* max 350px */
+  .center-box{ flex: 1 1 100%; min-width: 500px; }
+  .right-box { flex: 0 1 280px; }   /* max 280px */
+}
+
+/* -------------------------------------------------
+   4. Tablet / narrow desktop – shrink sides
+   ------------------------------------------------- */
+@media (max-width: 1199px) and (min-width: 901px) {
+  .left-box  { flex: 0 1 280px; }
+  .center-box{ flex: 1 1 100%; min-width: 400px; }
+  .right-box { flex: 0 1 220px; }
+}
+
+/* -------------------------------------------------
+   5. Mobile – sides collapse, centre takes 100%
+   ------------------------------------------------- */
+@media (max-width: 900px) {
+  .three-box-layout {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .center-box { order: -1; }               /* centre on top */
+  .left-box,
+  .right-box { order: 1; }                 /* both below centre */
+
+  /* side panels start hidden */
+  .side-box {
+    flex: 0 0 0%;
+    max-width: 0;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+      flex 0.4s ease,
+      max-width 0.4s ease,
+      opacity 0.3s ease,
+      padding 0.3s ease;
+  }
+
+  .center-box {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}
+
+/* -------------------------------------------------
+   6. “Zoom-in” behaviour – sides shrink from centre
+   ------------------------------------------------- */
+
+/* The trick: we let the *gap* shrink **and** the side
+   flex-basis shrink **equally** from both sides.
+   The container is already `justify-content:center`,
+   so the centre column stays exactly in the middle. */
+.three-box-layout {
+  --side-max: 350px;   /* left max */
+  --side-min: 180px;   /* when they start collapsing */
+}
+
+/* Use a CSS custom property that reacts to viewport width */
+@media (max-width: 1600px) {
+  .three-box-layout {
+    --side-max: calc(20vw + 50px);   /* example: shrink with viewport */
+  }
+}
+
+/* When the calculated max is smaller than the min → collapse */
+.side-box {
+  flex: 0 1 var(--side-max);
+  max-width: var(--side-max);
+  min-width: var(--side-min);
+  transition:
+    flex 0.35s ease,
+    max-width 0.35s ease,
+    opacity 0.3s ease;
+}
+
+/* Fade-out once the side reaches its minimum */
+@media (max-width: 1100px) {
+  .side-box {
+    opacity: calc((100vw - 700px) / 400);   /* 0 → 1 range */
+  }
+}
+
+/* -------------------------------------------------
+   7. Optional: tiny “expand” button on mobile
+   ------------------------------------------------- */
+@media (max-width: 900px) {
+  .side-box {
+    position: relative;
+  }
+  .side-box::before {
+    content: '⇨';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #555;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
