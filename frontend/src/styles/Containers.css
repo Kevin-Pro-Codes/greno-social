@@ -65,10 +65,10 @@
    4. SIDE BOXES – FILL REMAINING SPACE
    ============================================= */
 .side-box {
-  flex: 1 1 0;
-  min-width: 240px;
-  max-width: 400px;
-  opacity: clamp(0, (100vw - 800px) / 600, 1);
+  flex: 0 1 320px;
+  min-width: 250px;
+  max-width: 380px;
+  opacity: 1;
   transition:
     flex 0.35s ease,
     opacity 0.3s ease,
@@ -76,17 +76,17 @@
 }
 
 /* =============================================
-   5. EARLIER COLLAPSE (≈175% ZOOM) – STACKED WITH SPACING
+   5. MOBILE & TABLET COLLAPSE
    ============================================= */
-@media (max-width: 1400px) {
+@media (max-width: 992px) {
   .three-box-layout {
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    gap: 0.1rem;             /* Vertical space between containers */
+    gap: 0.75rem;
     width: 100%;
-    min-height: calc(100vh - 80px);
-    padding: 0;     /* Equal horizontal space around containers */
+    min-height: auto;
+    padding: 0;
     margin: 0;
     box-sizing: border-box;
   }
@@ -97,11 +97,11 @@
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    border-radius: 8px;    /* Keep nice rounded corners */
-    padding: 1rem;         /* Inner content padding */
-    margin-bottom: 1rem;             /* Outer margin handled by flex gap */
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
     flex: 0 0 auto;
-    overflow: auto;
+    overflow: visible;
     box-sizing: border-box;
   }
 
@@ -111,7 +111,6 @@
   .right-box  { order: 2; }
 
   .side-box {
-    opacity: 1;
     flex: 0 0 auto;
     max-width: 100%;
   }

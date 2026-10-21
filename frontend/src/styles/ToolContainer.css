@@ -6,8 +6,7 @@
 
 /* Make the right-box take full height and remove any extra space */
 .right-box {
-  min-width: 15%;
-  max-width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;   /* stack contents vertically */
   justify-content: flex-start;
@@ -23,30 +22,49 @@
   flex-direction: column;
   align-items: stretch;      
   justify-content: flex-start;
-  gap: 0.5rem;
+  gap: 0.35rem;
   border: 2px solid #a0cc3a;  /* green outline */
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.75rem;
   background-color: #000;
   width: 100%;                 /* full width of parent */
   box-sizing: border-box;
   margin: 0;                    /* no gap around it */
 }
 
-
-
-.icon-item,
-.icon-item-last {
-  color: white;
+.tool-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;                /* explicit spacing between icon and text */
+  color: #fff;
   cursor: pointer;
   border-radius: 6px;
-  transition: background 0.2s ease;
+  padding: 0.65rem 0.85rem;
   width: 100%;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.icon-item:hover,
-.icon-item-last:hover {
-  background-color: #222;
+.tool-item:hover {
+  background-color: #1e1e1e;
+  color: #a0cc3a;
+}
+
+.tool-icon {
+  flex-shrink: 0;
+  color: #fff;
+  transition: color 0.2s ease;
+}
+
+.tool-item:hover .tool-icon {
+  color: #a0cc3a;
+}
+
+.tool-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: inherit;
 }
 
 .border-success {

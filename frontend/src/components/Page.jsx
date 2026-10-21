@@ -1,23 +1,6 @@
 import React, { useState } from 'react';
-import { CgProfile } from "react-icons/cg";
-import { FiSearch, FiBell, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-
 import Navbar from '../components/Navbar';         
 import Containers from '../components/Containers';
-import logo from '../assets/greeno.jpg';
-import profile from '../assets/profile.svg';
-
-
-
-import '../styles/App.css';
-import '../styles/Navbar.css';
-import '../styles/Containers.css';
-import '../styles/ChatContainer.css';
-import '../styles/ShowHideChat.css';
-import '../styles/PostContainer.css';
-import '../styles/ToolContainer.css';
-import '../styles/Login.css';
-
 
 export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,9 +12,9 @@ export default function Page() {
   };
 
   return (
-    <div className="app-container">
+    <div className="flex flex-col min-h-screen w-full bg-[#222222]">
       <Navbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <main className="main-content">
+      <main className="flex-1 w-full max-w-[2000px] mx-auto p-4 box-border">
         <Containers
           isChatMinimized={isChatMinimized}
           toggleChat={toggleChat}

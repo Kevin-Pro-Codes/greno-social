@@ -1,28 +1,158 @@
-/* Navbar.css - Only custom styles that Bootstrap doesn't handle */
+/* Navbar.css */
 
-.navbar-profile {
+.navbar-container {
+  width: 100%;
+  background-color: #000;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #262626;
+  box-sizing: border-box;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-profile-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-profile-icon {
   cursor: pointer;
+  color: #fff;
+  transition: opacity 0.2s ease;
 }
 
-.profile-menu {
+.navbar-profile-icon:hover {
+  opacity: 0.8;
+}
+
+.navbar-profile-menu {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  width: 10rem;
+  background-color: #171717;
+  border: 1px solid #404040;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
   z-index: 1000;
-  min-width: 150px;
+  overflow: hidden;
 }
 
-.profile-menu button:hover {
-  background-color: #222;
+.navbar-menu-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: #e5e5e5;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-.search-input::placeholder {
-  color: #a7a6a6;
+.navbar-menu-item:hover {
+  background-color: #262626;
+  color: #fff;
+}
+
+.navbar-menu-item.logout:hover {
+  color: #f87171;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-bell-btn {
+  position: relative;
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.navbar-bell-btn:hover {
+  color: #d4d4d4;
+}
+
+.navbar-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: #dc2626;
+  color: #fff;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 10px;
+  width: 18px;
+  height: 18px;
+  line-height: 1;
+}
+
+.navbar-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #a3a3a3;
+  pointer-events: none;
+}
+
+.navbar-search-input {
+  width: 14rem;
+  padding: 0.4rem 0.75rem 0.4rem 2.25rem;
+  font-size: 0.875rem;
+  background-color: #171717;
+  border: 1px solid #404040;
+  border-radius: 9999px;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.navbar-search-input:focus {
+  border-color: #a0cc3a;
+}
+
+.navbar-search-input::placeholder {
+  color: #a3a3a3;
   font-family: 'Calibri', sans-serif;
 }
 
-/* Custom badge styling if needed */
-.badge {
-  font-size: 0.7rem;
-}
-
-.cursor-pointer {
-  cursor: pointer;
+.navbar-logo {
+  width: 40px !important;
+  height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 1px solid #404040;
+  display: block;
+  flex-shrink: 0;
 }

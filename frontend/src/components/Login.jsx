@@ -3,7 +3,6 @@ import { useAuth } from '../support/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/greeno.jpg';
 
-
 export default function Login({ error: initialError }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -11,14 +10,12 @@ export default function Login({ error: initialError }) {
   const [error, setError] = useState(initialError || null);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('isAuthenticated');
     if (isAuthenticated === 'true') {
       navigate('/home');  
     }
-  }, []);
-
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +30,6 @@ export default function Login({ error: initialError }) {
         body: JSON.stringify({ username, password }),
       });
 
-      // Check if response is JSON
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
         throw new Error('Server returned non-JSON response');
@@ -41,15 +37,12 @@ export default function Login({ error: initialError }) {
 
       const data = await response.json();
 
-  if (response.ok) {
-  console.log('Login successful:', data);
-  login();
-  localStorage.setItem('user', JSON.stringify(data.user));
-  localStorage.setItem('isAuthenticated', 'true'); 
-  navigate('/home');
-  
-}
-else {
+      if (response.ok) {
+        login();
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('isAuthenticated', 'true'); 
+        navigate('/home');
+      } else {
         setError(data.error || 'Login failed');
       }
     } catch (err) {
@@ -59,155 +52,57 @@ else {
   };
 
   return (
-    <>
-      <style>{`
-        * {
-          box-sizing: border-box;
-        }
-        body, html {
-          height: 100%;
-          margin: 0;
-           
-        
-          background: #333;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .wrapper {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-        }
-        .container {
-          background: black;
-          padding: 40px 30px;
-          border-radius: 8px;
-          border: 2px solid #a0cc3a;
-          width: 90%;
-          max-width: 500px;
-          margin: 0 auto;
-          text-align: center;
-        }
-        .logo-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-bottom: 15px;
-        }
-        .logo-image {
-          margin-bottom: -8px;
-        }
-        h2 {
-          margin-bottom: 24px;
-          color: #a0cc3a;
-          font-family: 'Calibri', sans-serif;
-        }
-        .font-greeno {
-          color: #a0cc3a;
-          font-family: 'Calibri', sans-serif;
-          font-weight: bold;
-          margin-top: 0;
-        }
-        .font-white {
-          color: white;
-          font-family: 'Calibri', sans-serif;
-        }
-        input {
-          width: 100%;
-          padding: 12px 15px;
-          margin-bottom: 14px;
-          background-color: #1e1e1e;
-          border: 1px solid #333;
-          color: #fff;
-          border-radius: 4px;
-          font-size: 16px;
-          transition: border-color 0.3s ease;
-        }
-        input:focus {
-          border-color: #a0cc3a;
-          outline: none;
-        }
-        button {
-          width: 100%;
-          padding: 12px 15px;
-          background-color: #a0cc3a;
-          border: none;
-          border-radius: 4px;
-          color: white;
-          font-weight: bold;
-          font-size: 16px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-        button:hover {
-          background-color: #8caf31;
-        }
-        a {
-          color: #a0cc3a;
-          text-decoration: none;
-          display: inline-block;
-          margin-top: 16px;
-          font-size: 14px;
-        }
-        a:hover {
-          text-decoration: underline;
-        }
-        .error {
-          color: #ff4d4d;
-          margin: 0;
-          margin-bottom: 12px;
-          font-size: 14px;
-        }
-      `}</style>
-
-      <div className="wrapper">
-        <div className="container">
-          <div className="logo-container">
-            <img
-              src={logo}
-              alt="Greeno Logo"
-              className="logo-image"
-              width="160"
-              height="140"
-            />
-            <h2 className="font-greeno">Greeno Social</h2>
-          </div>
-
-          {error && <p className="error">{error}</p>}
-
-          <form className="login" onSubmit={handleSubmit}>
-            <input
-            className="font-input"
-              name="loginId"
-              placeholder="Login"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            <input
-            className="font-input"
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button type="submit" style={{ color: 'black' }}>
-              Log in
-            </button>
-          </form>
-
-          <p className="font-white" style={{ fontSize: '20px' }}>
-            Don't have an account?{' '}
-            <Link to="/register" style={{ color: '#007bff', textDecoration: 'none', fontSize: '20px'}}>
-              Register
-            </Link>
-          </p>
+    <div className="flex justify-center items-center min-h-screen w-full bg-[#333333] p-4 box-border">
+      <div className="bg-black p-8 sm:p-10 rounded-lg border-2 border-[#a0cc3a] w-full max-w-md text-center shadow-2xl box-border">
+        {/* Logo and Brand */}
+        <div className="flex flex-col items-center mb-6">
+          <img
+            src={logo}
+            alt="Greeno Logo"
+            className="w-32 h-32 rounded-full object-cover border-2 border-[#404040] mb-2"
+          />
+          <h2 className="text-[#a0cc3a] text-3xl font-bold tracking-tight">Greeno Social</h2>
         </div>
+
+        {error && (
+          <p className="text-red-500 text-sm mb-4 bg-red-950/40 border border-red-800/60 rounded p-2 font-medium">
+            {error}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <input
+            name="loginId"
+            placeholder="Login"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="w-full px-4 py-3 bg-[#1e1e1e] border border-[#333] text-white rounded focus:outline-none focus:border-[#a0cc3a] transition-colors text-base"
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full px-4 py-3 bg-[#1e1e1e] border border-[#333] text-white rounded focus:outline-none focus:border-[#a0cc3a] transition-colors text-base"
+          />
+          <button
+            type="submit"
+            className="w-full py-3 bg-[#a0cc3a] hover:bg-[#8caf31] text-black font-bold text-base rounded cursor-pointer transition-colors duration-200 mt-2 shadow-md"
+          >
+            Log in
+          </button>
+        </form>
+
+        <p className="text-white text-base mt-6">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-blue-500 hover:text-blue-400 hover:underline font-medium">
+            Register
+          </Link>
+        </p>
       </div>
-    </>
+    </div>
   );
 }

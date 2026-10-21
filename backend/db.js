@@ -106,6 +106,22 @@ db.serialize(() => {
     else console.log('✅ Posts table ready.');
   });
 
+  // Messages table for chat
+  db.run(`
+  CREATE TABLE IF NOT EXISTS messages (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  sender_id INTEGER NOT NULL,
+  recipient_id INTEGER NOT NULL,
+  message TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(sender_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY(recipient_id) REFERENCES users(id) ON DELETE CASCADE
+)
+  `, (err) => {
+    if (err) console.error('❌ Failed to create messages table:', err);
+    else console.log('✅ Messages table ready.');
+  });
+
   // Debug: list all users
   db.all('SELECT * FROM users', [], (err, rows) => {
     if (err) console.error('❌ Failed to fetch users:', err);

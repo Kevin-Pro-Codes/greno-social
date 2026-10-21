@@ -10,6 +10,18 @@ echo.
 :: Navigate to root directory where this batch file is located
 cd /d "%~dp0"
 
+:: Check and install backend dependencies if missing
+if not exist "backend\node_modules\" (
+    echo [Setup] Backend dependencies not found. Installing...
+    cd backend && call npm install && cd ..
+)
+
+:: Check and install frontend dependencies if missing
+if not exist "frontend\node_modules\" (
+    echo [Setup] Frontend dependencies not found. Installing...
+    cd frontend && call npm install && cd ..
+)
+
 :: 1. Start Backend in a dedicated window
 echo [1/2] Starting Backend Server (Node.js/Express)...
 start "Greno Backend (Port 3000/5000)" cmd /k "cd backend && npm start"

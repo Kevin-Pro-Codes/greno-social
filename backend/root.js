@@ -264,6 +264,18 @@ async function handleAPIRoutes(req, res, pathname, method, session, parsedUrl) {
       }
       break;
 
+    case '/api/users':
+      if (method === 'GET') {
+        handleGetUsers(req, res, session);
+      }
+      break;
+
+    case '/api/messages':
+      if (method === 'POST') {
+        handleSendMessage(req, res, body, session);
+      }
+      break;
+
     default:
       // Handle dynamic routes like /api/posts/user/:userId
       if (pathname.startsWith('/api/posts/user/') && method === 'GET') {
@@ -275,6 +287,11 @@ async function handleAPIRoutes(req, res, pathname, method, session, parsedUrl) {
         const postId = pathname.split('/').pop();
         handleDeletePost(req, res, postId, session);
       }
+      // Handle chat message conversation /api/messages/:otherUserId
+      else if (pathname.startsWith('/api/messages/') && method === 'GET') {
+        const otherUserId = pathname.split('/').pop();
+        handleGetMessages(req, res, otherUserId, session);
+      }
       // Handle avatar upload
       else if (pathname.startsWith('/api/users/') && pathname.endsWith('/avatar') && method === 'POST') {
         const userId = pathname.split('/')[3];
@@ -284,6 +301,87 @@ async function handleAPIRoutes(req, res, pathname, method, session, parsedUrl) {
         sendJSONResponse(res, 404, { error: 'API endpoint not found' }, req);
       }
   }
+}
+
+// CHAT API HANDLERS
+
+// 1. Get list of available users for chatting
+function handleGetUsers(req, res, session) {
+  const currentUserId = session ? session.user.id : null;
+  const query = `
+    SELECT id, username, name, avatar 
+    FROM users 
+    WHERE id != ? 
+    ORDER BY name ASC, username ASC
+  `;
+  db.all(query, [currentUserId || 0], (err, rows) => {
+    if (err) {
+      console.error('❌ Error fetching chat users:', err);
+      return sendJSONResponse(res, 500, { error: 'Failed to fetch users' }, req);
+    }
+    sendJSONResponse(res, 200, rows, req);
+  });
+}
+
+// 2. Send a new chat message
+function handleSendMessage(req, res, body, session) {
+  const senderId = session ? session.user.id : (body.sender_id || (body.user && body.user.id));
+  const recipientId = body.recipient_id;
+  const message = body.message ? body.message.trim() : '';
+
+  if (!senderId || !recipientId || !message) {
+    return sendJSONResponse(res, 400, { error: 'sender_id, recipient_id, and message are required' }, req);
+  }
+
+  const query = `
+    INSERT INTO messages (sender_id, recipient_id, message)
+    VALUES (?, ?, ?)
+  `;
+
+  db.run(query, [senderId, recipientId, message], function (err) {
+    if (err) {
+      console.error('❌ Error sending message:', err);
+      return sendJSONResponse(res, 500, { error: 'Failed to send message' }, req);
+    }
+
+    db.get(`
+      SELECT m.*, u.name as sender_name, u.username as sender_username, u.avatar as sender_avatar
+      FROM messages m
+      JOIN users u ON m.sender_id = u.id
+      WHERE m.id = ?
+    `, [this.lastID], (err, row) => {
+      if (err) {
+        return sendJSONResponse(res, 200, { id: this.lastID, sender_id: senderId, recipient_id: recipientId, message }, req);
+      }
+      sendJSONResponse(res, 200, row, req);
+    });
+  });
+}
+
+// 3. Get messages between logged in user and another user
+function handleGetMessages(req, res, otherUserId, session) {
+  const currentUserId = session ? session.user.id : (req.headers['x-user-id'] || null);
+
+  if (!currentUserId || !otherUserId) {
+    return sendJSONResponse(res, 400, { error: 'User ID required' }, req);
+  }
+
+  const query = `
+    SELECT m.*, u.name as sender_name, u.username as sender_username, u.avatar as sender_avatar
+    FROM messages m
+    JOIN users u ON m.sender_id = u.id
+    WHERE (m.sender_id = ? AND m.recipient_id = ?)
+       OR (m.sender_id = ? AND m.recipient_id = ?)
+    ORDER BY m.created_at ASC
+  `;
+
+  db.all(query, [currentUserId, otherUserId, otherUserId, currentUserId], (err, rows) => {
+    if (err) {
+      console.error('❌ Error fetching messages:', err);
+      return sendJSONResponse(res, 500, { error: 'Failed to fetch messages' }, req);
+    }
+    sendJSONResponse(res, 200, rows, req);
+  });
 }
 
 // ADD THIS FUNCTION - Handle GET all posts

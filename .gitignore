@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Database & Uploads
+*.sqlite
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/.env
+

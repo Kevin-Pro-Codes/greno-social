@@ -1,196 +1,115 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-
-export default function Register({ error }) {
+export default function Register({ error: initialError }) {
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [usernameError, setUsernameError] = useState('');
+  const [error, setError] = useState(initialError || '');
+  const navigate = useNavigate();
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setUsernameError('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUsernameError('');
+    setError('');
 
-  if (username.charAt(0) !== username.charAt(0).toUpperCase()) {
-    setUsernameError('❌ USERNAME MUST START WITH UPPERCASE LETTER');
-    return;
-  }
-
-  try {
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, name, email, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      //alert('Registration successful!');
-    
-      window.location.href = '/login';
-    } else {
-      alert(data.error || 'Registration failed');
+    if (username.charAt(0) !== username.charAt(0).toUpperCase()) {
+      setUsernameError('❌ USERNAME MUST START WITH UPPERCASE LETTER');
+      return;
     }
-  } catch (error) {
-    console.error('Registration error:', error);
-    alert('Server error. Please try again later.');
-  }
-};
 
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate('/login');
+      } else {
+        setError(data.error || 'Registration failed');
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError('Server error. Please try again later.');
+    }
+  };
 
   return (
-    <>
-      <style>{`
-        * {
-          box-sizing: border-box;
-        }
-        html, body {
-          height: 100%;
-          margin: 0;
-          font-family: Arial, sans-serif;
-          background: #333;
-        }
-        .wrapper {
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .container {
-          background: black;
-          padding: 40px 30px;
-          border-radius: 8px;
-          border: 2px solid #a0cc3a;
-          width: 90%;
-          max-width: 500px;
-          text-align: center;
-        }
-        h2 {
-          margin-bottom: 24px;
-          color: #a0cc3a;
-          font-family: 'Calibri', sans-serif;
-          font-weight: bold;
-        }
-        .font-white {
-          color: white;
-          font-family: 'Calibri', sans-serif;
-        
-        }
+    <div className="flex justify-center items-center min-h-screen w-full bg-[#333333] p-4 box-border">
+      <div className="bg-black p-8 sm:p-10 rounded-lg border-2 border-[#a0cc3a] w-full max-w-md text-center shadow-2xl box-border">
+        <h2 className="text-[#a0cc3a] text-3xl font-bold tracking-tight mb-6">
+          Registration
+        </h2>
 
-        .font-input {
-            font-size: 20px;
-        font-family: 'Calibri', sans-serif;
-        }
-
-        input {
-          width: 100%;
-          padding: 12px 15px;
-          margin-bottom: 14px;
-          background-color: #1e1e1e;
-          border: 1px solid #333;
-          color: #fff;
-          border-radius: 4px;
-          font-size: 16px;
-          transition: border-color 0.3s ease;
-        }
-        input:focus {
-          border-color: #a0cc3a;
-          outline: none;
-        }
-        button {
-          width: 100%;
-          padding: 12px 15px;
-          background-color: #a0cc3a;
-          border: none;
-          border-radius: 4px;
-          color: black;
-          font-weight: bold;
-          font-size: 16px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-        button:hover {
-          background-color: #8caf31;
-        }
-        a {
-          color: #a0cc3a;
-          text-decoration: none;
-          display: inline-block;
-          margin-top: 16px;
-          font-size: 14px;
-        }
-        a:hover {
-          text-decoration: underline;
-        }
-        .error {
-          color: #ff4d4d;
-          margin-top: 12px;
-          margin-bottom: 12px;
-          font-size: 14px;
-        }
-      `}</style>
-
-      <div className="wrapper">
-        <div className="container">
-          <h2>Registration</h2>
-
-          {error && <p className="error">{error}</p>}
-          {usernameError && <div className="error">{usernameError}</div>}
-
-          <form onSubmit={handleSubmit}>
-            <input
-            className="font-input"
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            <input
-            className="font-input"
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <input
-            className="font-input"
-              type="email"
-              name="email"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-            className="font-input"
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button type="submit" style={{ color: 'black', textDecoration: 'none' }}>
-              Register
-            </button>
-          </form>
-
-          <p className="font-white" style={{ fontSize: '20px' }}>
-            Already have an account?{' '}
-            <Link to="/login" style={{ color: '#007bff', textDecoration: 'none', fontSize: '20px' }}>
-              Login
-            </Link>
+        {error && (
+          <p className="text-red-500 text-sm mb-4 bg-red-950/40 border border-red-800/60 rounded p-2 font-medium">
+            {error}
           </p>
-        </div>
+        )}
+        {usernameError && (
+          <div className="text-red-500 text-sm mb-4 bg-red-950/40 border border-red-800/60 rounded p-2 font-medium">
+            {usernameError}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="w-full px-4 py-3 bg-[#1e1e1e] border border-[#333] text-white rounded focus:outline-none focus:border-[#a0cc3a] transition-colors text-base"
+          />
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-4 py-3 bg-[#1e1e1e] border border-[#333] text-white rounded focus:outline-none focus:border-[#a0cc3a] transition-colors text-base"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full px-4 py-3 bg-[#1e1e1e] border border-[#333] text-white rounded focus:outline-none focus:border-[#a0cc3a] transition-colors text-base"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full px-4 py-3 bg-[#1e1e1e] border border-[#333] text-white rounded focus:outline-none focus:border-[#a0cc3a] transition-colors text-base"
+          />
+          <button
+            type="submit"
+            className="w-full py-3 bg-[#a0cc3a] hover:bg-[#8caf31] text-black font-bold text-base rounded cursor-pointer transition-colors duration-200 mt-2 shadow-md"
+          >
+            Register
+          </button>
+        </form>
+
+        <p className="text-white text-base mt-6">
+          Already have an account?{' '}
+          <Link to="/login" className="text-blue-500 hover:text-blue-400 hover:underline font-medium">
+            Login
+          </Link>
+        </p>
       </div>
-    </>
+    </div>
   );
 }
