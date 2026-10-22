@@ -4,7 +4,7 @@ A modern full-stack social platform and authentication system built with **React
 
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Framework:** React 19 + Vite
@@ -19,7 +19,7 @@ A modern full-stack social platform and authentication system built with **React
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 greno-social/
@@ -39,7 +39,7 @@ greno-social/
 
 ---
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (version 18+ recommended)
@@ -100,7 +100,7 @@ SESSION_SECRET=your_secret_key_here
 
 ---
 
-## 📜 Available Scripts
+## Available Scripts
 
 | Location | Command | Description |
 |---|---|---|
@@ -112,6 +112,6 @@ SESSION_SECRET=your_secret_key_here
 
 ---
 
-## 👤 Author
+## Author
 
 - **Kevin** - [Kevin-Pro-Codes](https://github.com/Kevin-Pro-Codes)
